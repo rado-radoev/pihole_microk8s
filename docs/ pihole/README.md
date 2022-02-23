@@ -35,3 +35,19 @@ Running it there will mean that you can share the Metallb address that will be a
 1. Now the Ingress [default-ingress](../../pihole/default-ingress.yml)
   > The Ingress in my case is listening for host header of pihole.lan (I have a `hosts` file entry pointing `pihole.lan` to the Ingress IP (the ingress IP is your host, running microk8s's IP. )). You can access your pihle admin interface on that IP.
   > Remember your DNS server IP will be the IP that your metallb set for the two port 53 services.
+
+1. To test if port 53 TCP/UDP are opened on the IP address, assigned by Metallb, you can use nmap
+
+```sh
+  nmap -p 53 -sU 192.168.100.241 # UDP
+  nmap -p 53 -sT 192.168.100.241 # TCP
+```
+
+This should output, something like this:
+```sh
+  PORT   STATE         SERVICE
+  53/udp open|filtered domain
+
+  PORT   STATE SERVICE
+  53/tcp open  domain
+```
