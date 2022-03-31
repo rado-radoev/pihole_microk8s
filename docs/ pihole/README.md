@@ -1,15 +1,15 @@
 # PiHole on Ubuntu and Microk8s
 
 1. Install microk8s
-  > follow ubuntu instructions
-  [instrctions here](https://ubuntu.com/tutorials/install-a-local-kubernetes-with-microk8s#1-overview)
+  > Follow ubuntu instructions
+  [here](https://ubuntu.com/tutorials/install-a-local-kubernetes-with-microk8s#1-overview)
 1. Configure `kubectl` to work with microk8s 
-  > follow [instructions here](https://microk8s.io/docs/working-with-kubectl)
+  > Follow instructions [here](https://microk8s.io/docs/working-with-kubectl)
 1. Enable Ingress and Metallb on microk8s
 ```sh
   microk8s enable ingress metallb storage
 ```
-When prompted for the Metallb network range, the easiest thing to do if you don't want to configure static routes is to just 
+When prompted for the Metallb network range, the easiest thing to do, if you don't want to configure static routes is to just 
 give it IPs from the same range as your home network
 
 ### Example. 

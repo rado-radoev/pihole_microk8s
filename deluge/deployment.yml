@@ -1,0 +1,51 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deluge
+  labels:
+    app: deluge
+spec:
+  selector:
+    matchLabels:
+      app: deluge
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: deluge
+    spec:
+      containers:
+        - name: deluge
+          image: lscr.io/linuxserver/deluge
+          ports:
+          - name: webui
+            containerPort: 8112
+            protocol: TCP
+          - name: in-traff-tcp
+            containerPort: 6881
+            protocol: TCP
+          - name: in-traff-udp
+            containerPort: 6881
+            protocol: UDP
+          volumeMounts:
+            - name: deluge-cfg-volume
+              mountPath: /config
+            - name: download-folder-volume
+              mountPath: /downloads
+          env:
+            - name: TZ
+              value: America/Los_Angeles
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+      volumes:
+        - name: deluge-cfg-volume
+          persistentVolumeClaim:
+            claimName: deluge-cfg
+        - name: download-folder-volume
+          hostPath:
+            path: /media/Downloads/deluge
+            type: Directory
+

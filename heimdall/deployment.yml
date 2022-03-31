@@ -1,0 +1,42 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: heimdall
+  labels:
+    app: heimdall
+spec:
+  selector:
+    matchLabels:
+      app: heimdall
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: heimdall
+    spec:
+      containers:
+        - name: heimdall
+          image: lscr.io/linuxserver/heimdall
+          ports:
+          - name: http
+            containerPort: 80
+            protocol: TCP
+          - name: https
+            containerPort: 443
+            protocol: TCP
+          volumeMounts:
+            - name: heimdall-cfg-volume
+              mountPath: /config
+          env:
+            - name: TZ
+              value: America/Los_Angeles
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+      volumes:
+        - name: heimdall-cfg-volume
+          persistentVolumeClaim:
+            claimName: heimdall-cfg
+

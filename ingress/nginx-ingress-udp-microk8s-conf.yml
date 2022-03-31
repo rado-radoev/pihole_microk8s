@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-ingress-udp-microk8s-conf
+  namespace: ingress
+data:
+  53: "pihole:pihole-udp-53:53"
