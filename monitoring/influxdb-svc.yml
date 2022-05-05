@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: influxdb
+  name: influxbd-svc
+  namespace: monitoring
+spec:
+  externalTrafficPolicy: Local
+  type: LoadBalancer
+  selector:
+    app: influxdb
+  ports:
+  - name: tcp
+    port: 8086
+    protocol: TCP
