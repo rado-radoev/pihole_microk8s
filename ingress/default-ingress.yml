@@ -4,8 +4,16 @@ metadata:
   name: http-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/issuer: "letsencrypt-production"
 spec:
   ingressClassName: public
+  tls:
+    - hosts:
+      - pihole.lan
+      - heimdall.lan
+      - unifi.lan
+      - deluge.lan
+      secretName: dot-lan-tls
   rules:
   - host: heimdall.lan
     http:
@@ -27,3 +35,13 @@ spec:
             name: deluge-tcp
             port: 
               number: 8112
+  - host: unifi.lan
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: unifi-controller-tcp
+            port: 
+              number: 8080

@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: unifi-controller
+  labels:
+    app: unifi-controller
+spec:
+  selector:
+    matchLabels:
+      app: unifi-controller
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: unifi-controller
+    spec:
+      containers:
+        - name: unifi-controller
+          image: lscr.io/linuxserver/unifi-controller
+          ports:
+          - name: 8080-http
+            containerPort: 8080
+            protocol: TCP
+          - name: 8443-https
+            containerPort: 8443
+            protocol: TCP
+          - name: 6789-tcp
+            containerPort: 6789
+            protocol: TCP
+          - name: 8843-tcp
+            containerPort: 8843
+            protocol: TCP
+          - name: 8880-tcp
+            containerPort: 8880
+            protocol: TCP
+          - name: 3478-udp
+            containerPort: 3478
+            protocol: UDP
+          - name: 1900-udp
+            containerPort: 1900
+            protocol: UDP
+          - name: 10001-udp
+            containerPort: 10001
+            protocol: UDP
+          - name: 5514-udp
+            containerPort: 5514
+            protocol: UDP
+          volumeMounts:
+            - name: unifi-controller-volume
+              mountPath: /config
+            # - name: unifi-controller-volume
+            #   mountPath: /unifi
+            # - name: unifi-controller-volume
+            #   mountPath: /var
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+            - name: MEM_LIMIT
+              value: "1024"
+            - name: MEM_STARTUP
+              value: "1024"
+      volumes:
+        - name: unifi-controller-volume
+          persistentVolumeClaim:
+            claimName: unifi-controller

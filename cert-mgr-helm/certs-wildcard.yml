@@ -1,0 +1,15 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: dot-lan
+spec:
+  secretName: dot-lan-tls
+  issuerRef:
+    name: letsencrypt-staging
+    kind: ClusterIssuer
+  commonName: pihole.lan
+  dnsNames:
+  - pihole.lan
+  - heimdall.lan
+  - deluge.lan
+  - unifi.lan
